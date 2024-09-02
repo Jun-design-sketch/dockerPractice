@@ -1,0 +1,18 @@
+test!
+how to copy file to (already running) container?
+
+こんな感じになる
+docker ps > wizardly_volhard
+docker cp dummy/. wizardly_volhard:/test
+docker cp wizardly_volhard:/test/. dummy/
+
+で、wizardly_volhardとかそろそろ書かずともよくコンテナにnameとtagを指定してみる
+docker run -p 3000:80 -d --rm --name goalsapp [IMAGE_ID]
+
+同じくイメージにもそういうことができる
+イメージはREPOSITORY(NAME)とTAGがあるけど大体は名前とバージョン指定になる
+php:6.5とか node:14とか
+docker build -t goals:0.1 .
+これでREPOSITORYとTAGがついてバージョン管理と区別がしやすくなる
+FROMで引っ張ってくる時も指定すれば。。Homebrewもそういうのあった。。
+
