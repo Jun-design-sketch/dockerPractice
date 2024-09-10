@@ -4,7 +4,9 @@ COPY package.json .
 RUN npm install
 COPY . .
 
-EXPOSE 80
+ENV PORT 80
+
+EXPOSE $PORT
 
 # docker build -t feedback-node .
 # docker run -p 3000:80 -d --name feedback-app --rm feedback-node
@@ -69,3 +71,25 @@ CMD ["npm", "start"]
 # 複数のvolumeもしくはbindMountが重複する時、より詳しいパスを持つ方が優先適用される
 # なので、/app/node_modulesフォルダのみ生き残ってその他はbindMountされている
 # でもnodeのserver.jsを修正したりしたらコンテナ再起動が必要。。
+
+# 今回環境変数を追加したので、実行時にコントロールできるようになる。
+
+# docker run -p 3000:8000   <<
+# --env PORT=8000           << こうやって
+# --name feedback-app 
+# -v feedback:/app/feedback 
+# -v $(pwd):/app:ro 
+# -v /app/node_modules 
+# -v /app/temp 
+# --rm feedback-node:env
+
+# もしくは、環境変数を.envに格納すると
+
+# docker run -p 3000:8000 
+# --env-file ./.env
+# --name feedback-app 
+# -v feedback:/app/feedback 
+# -v $(pwd):app:ro 
+# -v /app/node_modules 
+# -v /app/temp 
+# --rm feedback-node:env
