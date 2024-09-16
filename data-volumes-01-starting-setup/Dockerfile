@@ -4,7 +4,12 @@ COPY package.json .
 RUN npm install
 COPY . .
 
-ENV PORT 80
+# argumentを追加するとどう使えるか？
+# docker build -t feedback-node:dev --build-arg DEFAULT_PORT=8000
+# イメージをこうビルドすれば、デフォルトポートでないものが作れる
+ARG DEFAULT_PORT=80
+
+ENV PORT $DEFAULT_PORT
 
 EXPOSE $PORT
 
